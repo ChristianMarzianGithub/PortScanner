@@ -1,0 +1,17 @@
+{
+  "name": "portscanner-backend",
+  "version": "1.0.0",
+  "description": "Light and safe TCP port scanner backend",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
