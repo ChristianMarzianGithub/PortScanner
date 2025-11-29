@@ -1,0 +1,233 @@
+Prompt for Codex — Light & Safe Port Scanner Web App
+
+PROMPT START
+
+Build a complete Light, Safe Port Scanner web application.
+
+Architecture
+
+Frontend: React + TypeScript + Vite
+
+Backend: Node.js (Express) or Python (FastAPI) — choose one and implement
+
+Backend must perform the port checks
+
+Only implement safe TCP connect() scans
+
+Styling: TailwindCSS
+
+Provide Dockerfiles for both frontend and backend
+
+Provide docker-compose.yml
+
+Deployable on GCP Cloud Run
+
+Simple, clean folder structure
+
+Purpose
+
+Users should be able to run basic, safe, non-aggressive TCP port checks on a single host.
+
+This is NOT a penetration testing tool.
+This is a legitimate, harmless connectivity checker for diagnostic purposes.
+
+Strict Safety Rules
+
+Codex must implement these rules in the project:
+
+Allowed
+
+Only TCP connect() checks
+
+Only check common, everyday ports (max 20–30 ports), e.g.:
+
+21 (FTP)
+
+22 (SSH)
+
+25 (SMTP)
+
+53 (DNS TCP)
+
+80 (HTTP)
+
+110 (POP3)
+
+143 (IMAP)
+
+443 (HTTPS)
+
+465, 587 (SMTP SSL)
+
+993, 995 (IMAP/POP3 SSL)
+
+8080 (HTTP alt)
+
+Timeout per port must be at least 1 second to avoid hammering
+
+Maximum of 20 ports per scan
+
+Only scan public domains and public IPs
+
+Explicitly block:
+
+private IP ranges
+
+localhost
+
+internal networks
+
+broadcast/multicast addresses
+
+Not Allowed (must be blocked in code)
+
+No UDP scanning
+
+No SYN/stealth scans
+
+No OS fingerprinting
+
+No banner grabbing
+
+No port flooding
+
+No scanning more than 20 ports or more than 1 target at a time
+
+No scanning of private/internal networks
+
+The project must enforce these restrictions.
+
+Backend Requirements
+Endpoints
+1. POST /scan
+
+Request body:
+
+{
+  "target": "example.com",
+  "ports": [80, 443, 22]
+}
+
+
+Validation:
+
+target must be a valid domain or public IP
+
+reject private IPs (10., 172.16–31., 192.168., 127., ::1, fe80::/10, etc.)
+
+ports must be in allowed list
+
+Backend logic:
+
+Resolve hostname
+
+For each allowed port:
+
+Attempt TCP connect with timeout
+
+Return per-port data:
+
+Response:
+
+{
+  "target": "example.com",
+  "ip": "93.184.216.34",
+  "results": [
+    { "port": 80, "status": "open", "latency_ms": 42 },
+    { "port": 443, "status": "closed" },
+    { "port": 22, "status": "filtered" }
+  ],
+  "timestamp": "2025-01-01T12:00:00Z"
+}
+
+
+Statuses:
+
+open (connect successful)
+
+closed (connection refused)
+
+filtered (timeout/no response)
+
+Rate Limiting
+
+Implement simple rate limiting:
+
+No more than 1 scan every 10 seconds per IP
+
+Frontend Requirements
+UI Elements
+
+Input: domain or IP
+
+Multi-select for safe ports (predefined list)
+
+“Run Port Scan” button
+
+Results panel:
+
+table with port, protocol, status, latency
+
+colored status indicators
+
+Error messaging:
+
+invalid domain/IP
+
+private IP rejected
+
+scans too frequent (rate limit)
+
+unknown backend errors
+
+Other UI Features
+
+Local history of last 5 scans (save in localStorage)
+
+Dark/light mode toggle
+
+Predefined test targets:
+
+google.com
+
+cloudflare.com
+
+github.com
+
+DevOps & Deliverables
+
+Provide:
+
+Full frontend code
+
+Full backend code
+
+Dockerfile (frontend)
+
+Dockerfile (backend)
+
+docker-compose.yml
+
+Tailwind config, Vite config, tsconfig
+
+README with:
+
+safe usage disclaimer
+
+security restrictions
+
+local setup
+
+Docker instructions
+
+Cloud Run deployment
+
+Unit tests for:
+
+private IP rejection
+
+port validation
+
+TCP connect logic
+
+PROMPT END
